@@ -5,28 +5,30 @@ import useTasks from "../features/task/lib/useTasks";
 import {useTaskActions} from "../features/task/lib/useTaskActions";
 import {taskStore} from "../app/store";
 
-const HomePage: React.FC = ({}) => {
-    const [selectedDate] = useState(new Date().toISOString().split('T')[0]);
-    const [value, setValue] = useState('');
-    const taskActions = useTaskActions(value ? value : selectedDate);
+const HomePage: React.FC = () => {
+    const [selectedDate] = useState(new Date().toISOString().split('T')[0])
+    const [currentDate, setCurrentDate] = useState(selectedDate)
+    const taskActions = useTaskActions(currentDate ? currentDate : selectedDate)
     const {state} = taskStore
-    const {isLoading, isError} = useTasks(state.date);
-
+    const {isLoading, isError} = useTasks(state.date)
 
     if (isLoading) {
-        return <span>Loading...</span>;
+        return <span>Loading...</span>
     }
     if (isError) {
-        return <span>Error loading tasks</span>;
+        return <span>Error loading tasks</span>
     }
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Todo App</h1>
             <AddTaskForm date={selectedDate} onAddTask={taskActions.addTask}/>
-            <TaskList setValueChange={setValue}
-                      onDelete={taskActions.deleteTask}
-                      onUpdate={taskActions.updateTask}
-                      onUpdateCompleted={taskActions.updateTaskCompleted}/>
+            <TaskList
+                onDateChange={setCurrentDate}
+                onDelete={taskActions.deleteTask}
+                onUpdate={taskActions.updateTask}
+                onUpdateCompleted={taskActions.updateTaskCompleted}
+            />
         </div>
     );
 };

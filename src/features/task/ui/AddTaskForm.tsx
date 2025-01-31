@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 
 interface AddTaskFormProps {
-    date: string;
-    onAddTask: (text: string) => void;
+    date: string
+    onAddTask: (text: string) => void
 }
 
 const AddTaskForm: React.FC<AddTaskFormProps> = ({onAddTask}) => {
-    const [text, setText] = useState('');
+    const [text, setText] = useState('')
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+        e.preventDefault()
         if (text.trim()) {
-            onAddTask(text);
-            setText('');
+            onAddTask(text)
+            setText('')
         }
     };
 

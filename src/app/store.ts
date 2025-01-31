@@ -1,15 +1,15 @@
 import { Store } from '@tanstack/store';
 
 export interface ITask {
-    id: string;
-    text: string;
-    completed: boolean;
-    date: string;
+    id: string
+    text: string
+    completed: boolean
+    date: string
 }
 
 interface TaskState {
-    tasks: ITask[];
-    date: string;
+    tasks: ITask[]
+    date: string
 }
 
 const initialState: TaskState = {

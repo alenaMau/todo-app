@@ -1,42 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {getTasksFromStorage} from "../../task/model";
+import React, {useState} from 'react';
 
-
-interface DropDownMenuProps {
-    onValueChange: (date: string) => void;
+interface IDropDownMenu {
+    onDateChange: (date: string) => void;
 }
 
-const DropDownMenu: React.FC<DropDownMenuProps> = ({ onValueChange }) => {
-    const tasksPattern = /^\d{4}-\d{2}-\d{2}$/;
-    const [isOpen, setIsOpen] = useState(false);
-
+const DropDownMenu: React.FC<IDropDownMenu> = ({onDateChange}) => {
+    const tasksPattern = /^\d{4}-\d{2}-\d{2}$/
+    const [isOpen, setIsOpen] = useState(false)
 
     const getAllStorageKeys = (): string[] => {
-        const keys: string[] = [];
+        const keys: string[] = []
         for (let i = 0; i < localStorage.length; i++) {
-            if (tasksPattern.test(localStorage.key(i) as string)) {
-                keys[i] = localStorage.key(i) as string
+            const key = localStorage.key(i)
+            if (key && tasksPattern.test(key)) {
+                keys.push(key)
             }
         }
         return keys
-    };
-
-
-    const logTasksForAllDates = () => {
-        const allKeys = getAllStorageKeys()
-        allKeys.forEach(key => {
-            if (tasksPattern.test(key)) {
-                getTasksFromStorage(key.split('-').slice(1).join('-'));
-            }
-        });
-    };
-
-    useEffect(() => {
-        logTasksForAllDates();
-    }, []);
+    }
 
     const toggleDropdown = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(!isOpen)
     }
 
     const keys = getAllStorageKeys();
@@ -49,14 +33,15 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ onValueChange }) => {
                         type="button"
                         className="px-4 py-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center"
                         onClick={toggleDropdown}>
-                        выберите дату
+                        Выберите дату
                     </button>
                     {isOpen && (
                         <div
                             className="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                             <ul role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                 {keys.map((key) => (
-                                    <li key={key} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={() => onValueChange(key)}>
+                                    <li key={key} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        onClick={() => onDateChange(key)}>
                                         {key}
                                     </li>
                                 ))}
