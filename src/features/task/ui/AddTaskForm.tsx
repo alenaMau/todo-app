@@ -6,13 +6,13 @@ interface AddTaskFormProps {
 }
 
 const AddTaskForm: React.FC<AddTaskFormProps> = ({onAddTask}) => {
-    const [text, setText] = useState('')
+    const [text, UseForm] = useState('')
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (text.trim()) {
             onAddTask(text)
-            setText('')
+            UseForm('')
         }
     };
 
@@ -22,7 +22,7 @@ const AddTaskForm: React.FC<AddTaskFormProps> = ({onAddTask}) => {
                 type="text"
                 value={text}
                 className="bg-gray-100 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 m-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => UseForm(e.target.value)}
                 placeholder="Новая задача"
             />
             <button type="submit"

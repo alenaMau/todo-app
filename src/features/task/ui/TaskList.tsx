@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import useTasks from "../lib/useTasks";
+import '../../../App.css'
 import DropDownMenu from "../../drop-down/ui/DropDownMenu";
+import Button from "../../../shared/components/Button.tsx";
+import {TableHeader} from "../../../shared/components/TableHeader.tsx";
 
 interface ITaskListItem {
     onDelete: (taskId: string) => void
@@ -9,10 +12,14 @@ interface ITaskListItem {
     onDateChange: (date: string) => void
 }
 
-const TaskList: React.FC<ITaskListItem> = ({ onDelete, onUpdate, onUpdateCompleted, onDateChange }) => {
-    const [currentDate, setCurrentDate] = useState('')
-    const date = new Date().toISOString().split('T')[0]
-    const { data: tasks, isLoading, isError, error } = useTasks(currentDate ? currentDate : date)
+const TaskList: React.FC<ITaskListItem> = ({onDelete, onUpdate, onUpdateCompleted, onDateChange}) => {
+    const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0])
+    const {
+        data: tasks,
+        isLoading,
+        isError,
+        error
+    } = useTasks(currentDate ? currentDate : new Date().toISOString().split('T')[0])
 
     useEffect(() => {
         onDateChange(currentDate)
@@ -33,44 +40,37 @@ const TaskList: React.FC<ITaskListItem> = ({ onDelete, onUpdate, onUpdateComplet
     };
 
     return (
-        <div className="relative overflow-x-auto justify-center w-full flex flex-col items-center" >
-            <DropDownMenu onDateChange={setCurrentDate} />
+        <div className="relative overflow-x-auto justify-center w-full flex flex-col items-center">
+            <DropDownMenu onDateChange={setCurrentDate}/>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-[#242424] dark:text-gray-400">
-                <tr>
-                    <th scope="col" className="px-6 py-3">Задача</th>
-                    <th scope="col" className="px-6 py-3">Статус</th>
-                    <th scope="col" className="px-6 py-3"></th>
-                    <th scope="col" className="px-6 py-3"></th>
-                </tr>
+                <TableHeader/>
                 </thead>
                 <tbody>
                 {tasks.map((task) => (
-                    <tr key={task.id} className="bg-white border-b dark:bg-[#242424] dark:border-gray-9000 border-gray-200 outline">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <tr key={task.id}
+                        className="bg-white border-b dark:bg-[#242424] dark:border-gray-9000 border-gray-200 outline">
+                        <th scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {task.text}
                         </th>
                         <td className="px-6 py-4">
-                            <button
-                                className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-500 me-2 mb-2"
-                                onClick={() => onUpdateCompleted(task.id)}>
+                            <Button onClick={() => onUpdateCompleted(task.id)}>
                                 {task.completed ? "Выполнено" : "Выполняется"}
-                            </button>
+                            </Button>
                         </td>
                         <td>{task.date}</td>
                         <td className="px-6 py-4">
-                            <button
-                                className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-500 me-2 mb-2"
+                            <Button
                                 onClick={() => onDelete(task.id)}>
                                 Удалить
-                            </button>
+                            </Button>
                         </td>
                         <td className="px-6 py-4">
-                            <button
-                                className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-500 me-2 mb-2"
+                            <Button
                                 onClick={() => handleUpdate(task.id)}>
                                 Обновить
-                            </button>
+                            </Button>
                         </td>
                     </tr>
                 ))}

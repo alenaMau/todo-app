@@ -3,7 +3,7 @@ import AddTaskForm from "../features/task/ui/AddTaskForm";
 import TaskList from "../features/task/ui/TaskList";
 import useTasks from "../features/task/lib/useTasks";
 import {useTaskActions} from "../features/task/lib/useTaskActions";
-import {taskStore} from "../app/store";
+import {taskStore} from "../shared/store.ts";
 
 const HomePage: React.FC = () => {
     const [selectedDate] = useState(new Date().toISOString().split('T')[0])

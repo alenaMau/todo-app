@@ -37,6 +37,30 @@
   padding: 2em;
 }
 
+.task-button {
+  color: #f3f4f6;
+  background-color: #1f2937;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #2e3c55;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(229, 231, 235, 0.5);
+  }
+
+  font-weight: 500;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .read-the-docs {
   color: #888;
 }
