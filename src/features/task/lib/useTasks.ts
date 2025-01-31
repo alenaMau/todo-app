@@ -1,5 +1,5 @@
 import {getTasksFromStorage, ITask} from "../model";
-import { useQuery } from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 
 const fetchTasks = (date: string): ITask[] => {
     return getTasksFromStorage(date);

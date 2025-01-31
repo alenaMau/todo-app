@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ITask} from "../model";
 
 interface TaskItemProps {
@@ -6,18 +6,14 @@ interface TaskItemProps {
     onDeleteTask: (taskId: string) => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({task, onDelete, onUpdate}) => {
-    const handleDelete = () => {
-        onDelete(task.id);
-    };
+const TaskItem: React.FC<TaskItemProps> = () => {
     return (
         <div>
-            <button onClick={handleDelete}>Delete</button>
+            <button>Delete</button>
         </div>
     );
 
 };
-
 
 
 export default TaskItem;

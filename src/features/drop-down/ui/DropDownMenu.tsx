@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {useDropDown} from "../lib/useDropDown";
 import {getTasksFromStorage} from "../../task/model";
 
-const DropDownMenu = ({ onValueChange }) => {
+
+interface DropDownMenuProps {
+    onValueChange: (date: string) => void;
+}
+
+const DropDownMenu: React.FC<DropDownMenuProps> = ({ onValueChange }) => {
     const tasksPattern = /^\d{4}-\d{2}-\d{2}$/;
     const [isOpen, setIsOpen] = useState(false);
 
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-    const { data:tasks, } = useDropDown(selectedDate)
 
     const getAllStorageKeys = (): string[] => {
         const keys: string[] = [];
@@ -24,8 +26,7 @@ const DropDownMenu = ({ onValueChange }) => {
         const allKeys = getAllStorageKeys()
         allKeys.forEach(key => {
             if (tasksPattern.test(key)) {
-                const tasks = getTasksFromStorage(key.split('-').slice(1).join('-'))
-                // console.log(`${key}:`, tasks)
+                getTasksFromStorage(key.split('-').slice(1).join('-'));
             }
         });
     };
@@ -38,9 +39,6 @@ const DropDownMenu = ({ onValueChange }) => {
         setIsOpen(!isOpen);
     }
 
-    const closeDropdown = () => {
-        setIsOpen(false);
-    }
     const keys = getAllStorageKeys();
 
     return (

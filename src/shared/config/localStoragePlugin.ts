@@ -1,19 +1,24 @@
-import { Plugin } from '@tanstack/react-query';
-import {getTasksFromStorage, ITask, saveTasksToStorage} from "../../features/task/model";
+import { getTasksFromStorage, ITask, saveTasksToStorage } from "../../features/task/model";
 
-const localStoragePlugin: Plugin = {
-    onHydrate: (state, { queryKey }) => {
+const localStoragePlugin = {
+    onHydrate: (state: string, { queryKey }: { queryKey: [string, string] }) => {
         const [key, date] = queryKey;
         if (key === 'tasks') {
-            const tasks = getTasksFromStorage(date as string);
+            const tasks = getTasksFromStorage(date);
             return { data: tasks };
         }
         return state;
     },
-    onSuccess: (_, variables, __, context, { queryKey }) => {
+    onSuccess: function (
+        _: any,
+        __: any,
+        ___: any,
+        context: { data?: ITask[] },
+        { queryKey }: { queryKey: [string, string] }
+    ) {
         const [key, date] = queryKey;
         if (key === 'tasks' && context?.data) {
-            saveTasksToStorage(date as string, context.data as ITask[]);
+            saveTasksToStorage(date, context.data);
         }
     },
 };

@@ -4,7 +4,7 @@ import { ITask, getTasksFromStorage, saveTasksToStorage } from "../model";
 export const useTaskActions = (date: string) => {
     const queryClient = useQueryClient();
 
-    const addTask = (text: string) => {
+    const addTask = async (text: string) => {
         const tasks = getTasksFromStorage(date);
         const newTask: ITask = {
             id: Date.now().toString(),
@@ -14,33 +14,33 @@ export const useTaskActions = (date: string) => {
         };
         const updatedTasks = [...tasks, newTask];
         saveTasksToStorage(date, updatedTasks);
-        queryClient.invalidateQueries(['tasks', date]);
+        await queryClient.invalidateQueries({ queryKey: ['tasks', date] });
     };
 
-    const deleteTask = (taskId: string) => {
+    const deleteTask = async (taskId: string) => {
         const tasks = getTasksFromStorage(date);
         const updatedTasks = tasks.filter(task => task.id !== taskId);
         saveTasksToStorage(date, updatedTasks);
-        queryClient.invalidateQueries(['tasks', date]);
+        await queryClient.invalidateQueries({ queryKey: ['tasks', date] });
     };
 
-    const updateTask = (taskId: string, updatedText: string) => {
+    const updateTask = async (taskId: string, updatedText: string) => {
         const tasks = getTasksFromStorage(date);
         const updatedTasks = tasks.map(task =>
             task.id === taskId ? { ...task, text: updatedText } : task
         );
         saveTasksToStorage(date, updatedTasks);
-        queryClient.invalidateQueries(['tasks', date]);
+        await queryClient.invalidateQueries({ queryKey: ['tasks', date] });
     };
 
-    const updateTaskCompleted = (taskId: string) => {
+    const updateTaskCompleted = async (taskId: string) => {
         const tasks = getTasksFromStorage(date);
         const updatedTasks = tasks.map(task =>
-            task.id === taskId ?  { ...task, completed: true } : task
+            task.id === taskId ? { ...task, completed: true } : task
         );
         saveTasksToStorage(date, updatedTasks);
-        queryClient.invalidateQueries(['tasks', date]);
+        await queryClient.invalidateQueries({ queryKey: ['tasks', date] });
     };
 
-    return { addTask, deleteTask, updateTask,updateTaskCompleted };
+    return { addTask, deleteTask, updateTask, updateTaskCompleted };
 };
