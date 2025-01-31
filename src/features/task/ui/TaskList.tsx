@@ -33,7 +33,7 @@ const TaskList: React.FC<ITaskListItem> = ({ onDelete, onUpdate, onUpdateComplet
     };
 
     return (
-        <div className="relative overflow-x-auto">
+        <div className="relative overflow-x-auto justify-center w-full flex flex-col items-center" >
             <DropDownMenu onDateChange={setCurrentDate} />
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-[#242424] dark:text-gray-400">
